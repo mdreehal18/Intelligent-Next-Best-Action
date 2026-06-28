@@ -53,6 +53,7 @@ from app.agents.opportunity_agent import OpportunityAgent
 from app.agents.product_agent import ProductRecommendationAgent
 from app.agents.reviewer_agent import ReviewerAgent
 from app.agents.risk_agent import RiskAgent
+from app.agents.knowledge_retrieval_agent import KnowledgeRetrievalAgent
 from app.memory.memory_agent import memory
 from app.planner.planner_agent import PlannerAgent
 from app.services.audit_service import audit
@@ -85,44 +86,20 @@ class PipelineOrchestrator:
     """
 
     def __init__(self) -> None:
-        self._planner: PlannerAgent = PlannerAgent()
-        self._risk: RiskAgent = RiskAgent()
-        self._opportunity: OpportunityAgent = OpportunityAgent()
-        self._product: ProductRecommendationAgent = ProductRecommendationAgent()
-        self._conflict: ConflictAgent = ConflictAgent()
-        self._reviewer: ReviewerAgent = ReviewerAgent()
-        self._explanation: ExplanationAgent = ExplanationAgent()
+        self._planner = PlannerAgent()
+        self._knowledge = KnowledgeRetrievalAgent()
+        self._risk = RiskAgent()
+        self._opportunity = OpportunityAgent()
+        self._product = ProductRecommendationAgent()
+        self._conflict = ConflictAgent()
+        self._reviewer = ReviewerAgent()
+        self._explanation = ExplanationAgent()
 
     # ── Public entry point ────────────────────────────────────────────────
 
     def run(self, customer: dict[str, Any]) -> dict[str, Any]:
         """
-        Execute the full pipeline for one customer and return the unified
-        decision response.
-
-        The completed trace is also cached in the module-level ``_traces``
-        dict, keyed by ``customer_id``, and can be retrieved later via
-        :func:`get_trace`.
-
-        Parameters
-        ----------
-        customer : dict
-            A single customer record.  Expected keys:
-            ``customer_id``, ``name``, ``risk_score``, ``revenue``,
-            ``products``, ``industry``.
-
-        Returns
-        -------
-        dict
-            Unified decision response containing all agent outputs, IDs,
-            timestamps, and the full pipeline trace.  All fields required
-            by the frontend are guaranteed to be present (possibly ``None``
-            when a step failed).
-
-        Raises
-        ------
-        ValueError
-            If *customer* is not a non-empty dict.
+        Execute the dynamic pipeline for one customer based on the Planner's plan.
         """
         if not isinstance(customer, dict) or not customer:
             raise ValueError("customer must be a non-empty dict")
@@ -130,144 +107,78 @@ class PipelineOrchestrator:
         ctx: dict[str, dict[str, Any]] = {}
         trace: list[dict[str, Any]] = []
 
-        # ── Step 1: Planner ───────────────────────────────────────────────
-        self._run_step(
+        # 1. First, always run the Planner
+        planner_result = self._run_step(
             ctx,
             trace,
             "PlannerAgent",
             lambda: self._planner.run(customer),
         )
+        plan = planner_result.get("output", {}).get("plan", [])
 
-        # ── Step 2: Risk Assessment ───────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "RiskAssessmentAgent",
-            lambda: self._risk.run(customer),
-        )
-
-        risk_output: dict[str, Any] = ctx.get("RiskAssessmentAgent", {}).get(
-            "output", {}
-        )
-
-        # ── Step 3: Opportunity ───────────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "OpportunityAgent",
-            lambda: self._opportunity.run(customer),
-        )
-
-        opp_output: dict[str, Any] = ctx.get("OpportunityAgent", {}).get("output", {})
-
-        # ── Step 4: Product Recommendation ───────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "ProductRecommendationAgent",
-            lambda: self._product.run(customer),
-        )
-
-        product_output: dict[str, Any] = ctx.get("ProductRecommendationAgent", {}).get(
-            "output", {}
-        )
-
-        # ── Step 5: Conflict Detection ────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "ConflictDetectionAgent",
-            lambda: self._conflict.run(risk_output, opp_output, product_output),
-        )
-
-        conflict_output: dict[str, Any] = ctx.get("ConflictDetectionAgent", {}).get(
-            "output", {}
-        )
-
-        # ── Step 6: Reviewer ─────────────────────────────────────────────
-        opp_score: int = int(opp_output.get("opportunity_score") or 0)
-        partial_review = self._build_review_input(
-            customer,
-            risk_output,
-            opp_output,
-            product_output,
-            conflict_output,
-            opp_score,
-        )
-
-        self._run_step(
-            ctx,
-            trace,
-            "ReviewerAgent",
-            lambda: self._reviewer.run(partial_review),
-        )
-
-        review_output: dict[str, Any] = ctx.get("ReviewerAgent", {}).get("output", {})
-
-        # ── Step 7: Explanation ───────────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "ExplanationAgent",
-            lambda: self._explanation.run(
-                risk_output, opp_output, product_output, customer
+        # 2. Iterate through the plan and execute mandated agents
+        # We map agent names in the plan to actual agent instances/calls
+        agent_map = {
+            "KnowledgeRetrievalAgent": lambda: self._knowledge.run(customer),
+            "RiskAssessmentAgent": lambda: self._risk.run(customer),
+            "OpportunityAgent": lambda: self._opportunity.run(customer),
+            "ProductRecommendationAgent": lambda: self._product.run(customer),
+            "ExplanationAgent": lambda: self._explanation.run(
+                ctx.get("RiskAssessmentAgent", {}).get("output", {}),
+                ctx.get("OpportunityAgent", {}).get("output", {}),
+                ctx.get("ProductRecommendationAgent", {}).get("output", {}),
+                customer,
+                evidence=ctx.get("KnowledgeRetrievalAgent", {}).get("output", {}).get("evidence")
             ),
-        )
+            "ReviewerAgent": lambda: self._reviewer.run(
+                self._build_review_input(
+                    customer,
+                    ctx.get("RiskAssessmentAgent", {}).get("output", {}),
+                    ctx.get("OpportunityAgent", {}).get("output", {}),
+                    ctx.get("ProductRecommendationAgent", {}).get("output", {}),
+                    {}, # Conflict agent removed for simplicity in dynamic flow or can be added back
+                    int(ctx.get("OpportunityAgent", {}).get("output", {}).get("opportunity_score") or 0)
+                )
+            ),
+            "MemoryAgent": lambda: memory.save_decision(
+                self._build_decision_record(
+                    customer,
+                    ctx.get("RiskAssessmentAgent", {}).get("output", {}),
+                    ctx.get("OpportunityAgent", {}).get("output", {}),
+                    ctx.get("ProductRecommendationAgent", {}).get("output", {}),
+                    {},
+                    ctx.get("ExplanationAgent", {}).get("output", {}),
+                    self._derive_priority(int(ctx.get("OpportunityAgent", {}).get("output", {}).get("opportunity_score") or 0))
+                )
+            )
+        }
 
-        explanation_output: dict[str, Any] = ctx.get("ExplanationAgent", {}).get(
-            "output", {}
-        )
-
-        # ── Build the decision record used by Memory and Audit ────────────
-        priority: str = self._derive_priority(opp_score)
-        decision_record: dict[str, Any] = self._build_decision_record(
-            customer,
-            risk_output,
-            opp_output,
-            product_output,
-            conflict_output,
-            explanation_output,
-            priority,
-        )
-
-        # ── Step 8: Memory ────────────────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "MemoryAgent",
-            lambda: memory.save_decision(decision_record),
-        )
-
-        mem_output: dict[str, Any] = ctx.get("MemoryAgent", {}).get("output", {})
-
-        # ── Step 9: Audit ─────────────────────────────────────────────────
-        self._run_step(
-            ctx,
-            trace,
-            "AuditAgent",
-            lambda: audit.store_decision(
-                decision_record,
-                review_result=review_output,
-            ).to_dict(),
-        )
-
-        audit_output: dict[str, Any] = ctx.get("AuditAgent", {}).get("output", {})
+        for step in plan:
+            agent_name = step.get("agent")
+            if agent_name in agent_map and agent_name != "PlannerAgent":
+                self._run_step(
+                    ctx,
+                    trace,
+                    agent_name,
+                    agent_map[agent_name]
+                )
 
         # ── Cache trace keyed by customer_id ──────────────────────────────
         customer_id: str = str(customer.get("customer_id") or "unknown")
         _traces[customer_id] = trace
 
+        # Return final response using accumulated context
         return self._build_final_response(
             customer,
-            risk_output,
-            opp_output,
-            product_output,
-            conflict_output,
-            review_output,
-            explanation_output,
-            mem_output,
-            audit_output,
-            priority,
+            ctx.get("RiskAssessmentAgent", {}).get("output", {}),
+            ctx.get("OpportunityAgent", {}).get("output", {}),
+            ctx.get("ProductRecommendationAgent", {}).get("output", {}),
+            {}, # conflict
+            ctx.get("ReviewerAgent", {}).get("output", {}),
+            ctx.get("ExplanationAgent", {}).get("output", {}),
+            ctx.get("MemoryAgent", {}).get("output", {}),
+            {}, # audit
+            self._derive_priority(int(ctx.get("OpportunityAgent", {}).get("output", {}).get("opportunity_score") or 0)),
             trace,
         )
 
@@ -555,13 +466,18 @@ class PipelineOrchestrator:
             # ── Priority (derived; not in standalone ProductAgent) ─────────
             "priority": priority,
             # ── Product / Action ──────────────────────────────────────────
-            # recommended_action = the conflict agent's resolved directive
-            "recommended_action": conflict_output.get("decision"),
+            "recommended_action": conflict_output.get("decision") or product_output.get("recommended_product"),
             "recommended_product": product_output.get("recommended_product"),
-            "confidence": product_output.get("confidence"),
+            "confidence": explanation_output.get("confidence") or product_output.get("confidence"),
             # ── Explanation ───────────────────────────────────────────────
             "next_best_action": explanation_output.get("next_best_action"),
             "explanation": explanation_output.get("explanation"),
+            # ── Agentic Reasoning ─────────────────────────────────────────
+            "reasoning": explanation_output.get("reasoning", []),
+            "evidence": explanation_output.get("evidence", {}),
+            "risks_identified": explanation_output.get("risks_identified", []),
+            "opportunities_identified": explanation_output.get("opportunities_identified", []),
+            "business_impact": explanation_output.get("business_impact", {}),
             # ── Conflict ──────────────────────────────────────────────────
             "conflict_decision": conflict_output.get("decision"),
             "conflict_detected": conflict_output.get("conflict_detected", False),

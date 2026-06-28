@@ -65,8 +65,8 @@ Output schema
 }
 """
 
-from __future__ import annotations
-
+import json
+import os
 from typing import Any
 
 
@@ -75,11 +75,24 @@ class PlannerAgent:
 
     name = "PlannerAgent"
 
-    # ── Profile thresholds ────────────────────────────────────────────────
-    HIGH_RISK_THRESHOLD: int = 70
-    ENTERPRISE_THRESHOLD: float = 7_000_000
-    GROWTH_THRESHOLD: float = 3_000_000
-    LOW_PRODUCT_LIMIT: int = 2
+    def __init__(self):
+        self._load_config()
+
+    def _load_config(self):
+        config_path = os.path.join(os.path.dirname(__file__), "..", "config", "business_rules.json")
+        try:
+            with open(config_path, "r") as f:
+                config = json.load(f)
+                t = config.get("thresholds", {})
+                self.HIGH_RISK_THRESHOLD = t.get("high_risk", 70)
+                self.ENTERPRISE_THRESHOLD = t.get("enterprise_revenue", 7000000)
+                self.GROWTH_THRESHOLD = t.get("growth_revenue", 3000000)
+                self.LOW_PRODUCT_LIMIT = t.get("low_product_limit", 2)
+        except Exception:
+            self.HIGH_RISK_THRESHOLD = 70
+            self.ENTERPRISE_THRESHOLD = 7000000
+            self.GROWTH_THRESHOLD = 3000000
+            self.LOW_PRODUCT_LIMIT = 2
 
     # ── Public interface ──────────────────────────────────────────────────
 
@@ -138,18 +151,30 @@ class PlannerAgent:
         """
         steps: list[dict[str, Any]] = []
 
-        # ── Step: Retrieve Customer (always) ──────────────────────────────
+        # ── Step: Planner (always first) ──────────────────────────────────
         steps.append(
             self._step(
-                name="retrieve_customer",
-                label="Retrieve Customer",
-                description=(
-                    "Load and validate the latest customer record from the "
-                    "data layer before any analysis begins."
-                ),
-                agent="CustomerService",
+                name="planner",
+                label="Dynamic Planning",
+                description="Tailoring execution path based on customer profile.",
+                agent="PlannerAgent",
                 priority="required",
-                reason="All downstream agents depend on accurate, current customer data.",
+                reason="Orchestration Layer",
+            )
+        )
+
+        # ── Step: Knowledge Retrieval (always) ────────────────────────────
+        steps.append(
+            self._step(
+                name="retrieve_knowledge",
+                label="Enterprise Knowledge Retrieval",
+                description=(
+                    "Retrieve context from playbooks, CRM history, and "
+                    "internal FAQs to enrich decision context."
+                ),
+                agent="KnowledgeRetrievalAgent",
+                priority="required",
+                reason="Multi-source reasoning requires enterprise context.",
             )
         )
 
@@ -157,12 +182,12 @@ class PlannerAgent:
         steps.append(
             self._step(
                 name="analyze_risk",
-                label="Analyze Risk",
+                label="Risk Assessment",
                 description=(
                     "Classify the customer's risk level and compute a risk score "
                     "using revenue, industry, and product-depth signals."
                 ),
-                agent="RiskAgent",
+                agent="RiskAssessmentAgent",
                 priority="required",
                 reason="Risk level determines urgency and drives downstream product selection.",
             )
@@ -178,7 +203,7 @@ class PlannerAgent:
                         "Flag the customer for priority review and alert the "
                         "responsible relationship manager."
                     ),
-                    agent="RiskAgent",
+                    agent="RiskAssessmentAgent",
                     priority="conditional",
                     reason=(
                         f"Risk score of {risk_score} exceeds the high-risk threshold "
@@ -191,7 +216,7 @@ class PlannerAgent:
         steps.append(
             self._step(
                 name="analyze_opportunity",
-                label="Analyze Opportunity",
+                label="Opportunity Analysis",
                 description=(
                     "Score cross-sell and upsell potential from revenue, "
                     "active product count, and industry sector."
@@ -202,31 +227,11 @@ class PlannerAgent:
             )
         )
 
-        # ── Conditional: Cross-Sell Assessment ────────────────────────────
-        if product_count < self.LOW_PRODUCT_LIMIT:
-            steps.append(
-                self._step(
-                    name="cross_sell_assessment",
-                    label="Cross-Sell Assessment",
-                    description=(
-                        "Identify specific product gaps and rank cross-sell "
-                        "candidates for a shallow-relationship customer."
-                    ),
-                    agent="OpportunityAgent",
-                    priority="conditional",
-                    reason=(
-                        f"Customer holds only {product_count} active product(s) — "
-                        f"fewer than the {self.LOW_PRODUCT_LIMIT}-product threshold "
-                        "signals a meaningful cross-sell opportunity."
-                    ),
-                )
-            )
-
         # ── Step: Recommend Products (always) ─────────────────────────────
         steps.append(
             self._step(
                 name="recommend_products",
-                label="Recommend Products",
+                label="Recommendation Engine",
                 description=(
                     "Select the best-fit product from the catalogue using layered "
                     "risk, revenue, and industry-match rules."
@@ -237,33 +242,14 @@ class PlannerAgent:
             )
         )
 
-        # ── Conditional: Enterprise Priority Routing ──────────────────────
-        if revenue >= self.ENTERPRISE_THRESHOLD:
-            steps.append(
-                self._step(
-                    name="enterprise_routing",
-                    label="Enterprise Priority Routing",
-                    description=(
-                        "Escalate the recommendation to a senior relationship "
-                        "manager and apply enterprise-tier SLA handling."
-                    ),
-                    agent="ProductRecommendationAgent",
-                    priority="conditional",
-                    reason=(
-                        f"Revenue of ${revenue:,.0f} meets the Enterprise threshold "
-                        f"(${self.ENTERPRISE_THRESHOLD:,.0f}) — elevated routing required."
-                    ),
-                )
-            )
-
         # ── Step: Generate Explanation (always) ───────────────────────────
         steps.append(
             self._step(
                 name="generate_explanation",
-                label="Generate Explanation",
+                label="Explainability Layer",
                 description=(
                     "Synthesise all agent outputs into a natural-language "
-                    "explanation and a concise next-best-action directive."
+                    "explanation with evidence and confidence scores."
                 ),
                 agent="ExplanationAgent",
                 priority="required",
@@ -271,18 +257,30 @@ class PlannerAgent:
             )
         )
 
+        # ── Step: Human Review (always) ───────────────────────────────────
+        steps.append(
+            self._step(
+                name="human_review",
+                label="Human-in-the-Loop Review",
+                description="Require manual signal to approve or modify the recommendation.",
+                agent="ReviewerAgent",
+                priority="required",
+                reason="Enterprise compliance requires human oversight.",
+            )
+        )
+
         # ── Step: Store Decision (always) ─────────────────────────────────
         steps.append(
             self._step(
                 name="store_decision",
-                label="Store Decision",
+                label="Memory Update",
                 description=(
-                    "Persist the complete AI decision to memory for audit trail, "
-                    "compliance logging, and timeline display."
+                    "Persist the complete AI decision to memory for future "
+                    "retrieval and long-term optimization."
                 ),
                 agent="MemoryAgent",
                 priority="required",
-                reason="Every AI decision must be recorded for history and compliance.",
+                reason="Continuous learning from previous recommendations.",
             )
         )
 

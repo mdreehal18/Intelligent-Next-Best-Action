@@ -107,6 +107,20 @@ class MemoryAgent:
 
         return deepcopy(record)
 
+    def update_decision_status(self, decision_id: str, status: str, modifications: dict[str, Any] = None) -> bool:
+        """
+        Update the status and optionally modify a decision record.
+        """
+        with self._lock:
+            for customer_id in self._store:
+                for i, record in enumerate(self._store[customer_id]):
+                    if record.get("decision_id") == decision_id:
+                        record["review_status"] = status
+                        if modifications:
+                            record.update(modifications)
+                        return True
+        return False
+
     # ── Read ──────────────────────────────────────────────────────────────
 
     def get_customer_history(self, customer_id: str) -> list[dict[str, Any]]:

@@ -1,0 +1,18 @@
+{
+  "thresholds": {
+    "high_risk": 70,
+    "enterprise_revenue": 7000000,
+    "growth_revenue": 3000000,
+    "low_product_limit": 2
+  },
+  "recommendation_rules": {
+    "cross_sell_priority": "High",
+    "retention_priority": "Critical",
+    "upsell_priority": "Medium"
+  },
+  "business_metrics": {
+    "expected_churn_reduction_base": 0.15,
+    "cross_sell_revenue_multiplier": 1.25,
+    "upsell_revenue_multiplier": 1.4
+  }
+}
