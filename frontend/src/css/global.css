@@ -1,0 +1,328 @@
+:root {
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #0f172a;
+    background: #ffffff;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #ffffff;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+.page-layout {
+    min-height: 100vh;
+    padding: 32px;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(37, 99, 235, 0.08),
+            transparent 22%
+        ),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 22%);
+}
+
+.dashboard-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px;
+    border: 1px solid #dbe7ff;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+}
+
+.dashboard-eyebrow,
+.section-eyebrow,
+.kpi-label,
+.detail-label {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #2563eb;
+}
+
+.dashboard-title {
+    margin: 8px 0 4px;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    color: #0f172a;
+}
+
+.dashboard-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: #475569;
+}
+
+.section-block {
+    margin-top: 28px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    border-color: #bfdbfe;
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.1);
+}
+
+.kpi-value {
+    display: block;
+    margin-top: 12px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.kpi-note {
+    margin: 10px 0 0;
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.section-title {
+    margin: 6px 0 0;
+    font-size: 1.7rem;
+    color: #0f172a;
+}
+
+.customer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.customer-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.customer-card:hover {
+    transform: translateY(-4px);
+    border-color: #bfdbfe;
+    box-shadow: 0 18px 34px rgba(37, 99, 235, 0.1);
+}
+
+.customer-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.customer-name {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #0f172a;
+}
+
+.customer-industry {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.risk-badge {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.customer-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.customer-details-expanded {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.detail-item {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.detail-item-full {
+    grid-column: 1 / -1;
+}
+
+.detail-value {
+    display: block;
+    margin-top: 8px;
+    color: #0f172a;
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+.primary-button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 18px rgba(37, 99, 235, 0.22);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(37, 99, 235, 0.28);
+}
+
+.primary-button:active {
+    transform: translateY(0);
+}
+
+.status-panel {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 220px;
+    padding: 32px;
+    border: 1px solid #dbe7ff;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+    text-align: center;
+}
+
+.status-panel-error {
+    border-color: #fecaca;
+    background: #fffefe;
+}
+
+.status-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #b91c1c;
+}
+
+.status-text {
+    margin: 0;
+    color: #475569;
+    max-width: 520px;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #dbeafe;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1100px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .customer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .page-layout {
+        padding: 20px;
+    }
+
+    .dashboard-navbar {
+        padding: 22px;
+        border-radius: 20px;
+    }
+
+    .kpi-grid,
+    .customer-grid,
+    .customer-details,
+    .customer-details-expanded {
+        grid-template-columns: 1fr;
+    }
+
+    .customer-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

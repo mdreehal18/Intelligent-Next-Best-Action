@@ -1,2 +1,4 @@
-# Backend dependency placeholder for DecisionPilot AI
-# Add FastAPI and related dependencies here in future implementation phases.
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv

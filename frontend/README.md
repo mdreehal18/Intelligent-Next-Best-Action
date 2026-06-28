@@ -1,11 +1,15 @@
-# Frontend
+# DecisionPilot AI Frontend
 
-This directory contains the frontend project placeholder for DecisionPilot AI.
+React + Vite frontend scaffold for DecisionPilot AI.
 
-## Purpose
-- Host the React application structure
-- Organize pages, components, hooks, services, and assets
-- Provide the user-facing experience for dashboards and workflows
+## Stack
+- React
+- Vite
+- JavaScript
+- Axios
 
-## Notes
-This scaffold does not include application logic or UI implementation.
+## Run
+```bash
+npm install
+npm run dev
+```
