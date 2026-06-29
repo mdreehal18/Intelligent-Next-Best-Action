@@ -17,7 +17,7 @@ We are a team of 3 :
 ## 🔗 GitHub Repository Link
 
 Please find our project source code here:
-👉 **[GitHub Repository Link]** *(Placeholder: Add your repository link here)*
+👉 **[GitHub Repository Lin]** *(Placeholder:https://github.com/mdreehal18/Intelligent-Next-Best-Action)*
 
 ---
 
