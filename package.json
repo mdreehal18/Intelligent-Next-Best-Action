@@ -1,16 +1,16 @@
 {
-  "name": "intelligent_nba",
+  "name": "intelligent-nba-platform",
   "version": "2.0.0",
   "type": "module",
-  "description": "Agentic Next Best Action Platform – now with LLM reasoning, semantic memory, AI planning & outcomes dashboard",
+  "description": "Agentic Next Best Action Platform – React + Express + Gemini",
   "scripts": {
-    "start": "node server.js",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "server": "npm start --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "demo": "node workflow_runner.js"
   },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "node-fetch": "^3.3.2"
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

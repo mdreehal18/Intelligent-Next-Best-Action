@@ -1,14 +1,14 @@
-import { Blackboard } from "./memory/Blackboard.js";
-import { VectorDB } from "./memory/VectorDB.js";
-import { PlannerAgent } from "./agents/PlannerAgent.js";
-import { InteractionAgent } from "./agents/InteractionAgent.js";
-import { KnowledgeAgent } from "./agents/KnowledgeAgent.js";
-import { MemoryAgent } from "./agents/MemoryAgent.js";
-import { RiskAnalysisAgent, OpportunityAnalysisAgent, MissingInformationAgent } from "./agents/BiAgents.js";
-import { RecommendationAgent } from "./agents/RecommendationAgent.js";
-import { ExplanationAgent } from "./agents/ExplanationAgent.js";
-import { SCENARIOS } from "./data/scenarios.js";
-import { registerCategory, getCategoryNames } from "./data/categories.js";
+import { Blackboard } from "./client/src/services/memory/Blackboard.js";
+import { VectorDB } from "./client/src/services/memory/VectorDB.js";
+import { PlannerAgent } from "./client/src/services/agents/PlannerAgent.js";
+import { InteractionAgent } from "./client/src/services/agents/InteractionAgent.js";
+import { KnowledgeAgent } from "./client/src/services/agents/KnowledgeAgent.js";
+import { MemoryAgent } from "./client/src/services/agents/MemoryAgent.js";
+import { RiskAnalysisAgent, OpportunityAnalysisAgent, MissingInformationAgent } from "./client/src/services/agents/BiAgents.js";
+import { RecommendationAgent } from "./client/src/services/agents/RecommendationAgent.js";
+import { ExplanationAgent } from "./client/src/services/agents/ExplanationAgent.js";
+import { SCENARIOS } from "./client/src/services/data/scenarios.js";
+import { registerCategory, getCategoryNames } from "./client/src/services/data/categories.js";
 
 const colors = {
   reset: "\x1b[0m", bright: "\x1b[1m", dim: "\x1b[2m",
