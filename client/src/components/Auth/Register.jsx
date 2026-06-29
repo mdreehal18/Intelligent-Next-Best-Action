@@ -30,7 +30,7 @@ export default function Register() {
       <div className="auth-card">
         <div className="auth-logo">
           <div className="sidebar-logo-icon">🛡️</div>
-          <span className="sidebar-logo-text">Aegis</span>
+          <span className="sidebar-logo-text">AgentFusion</span>
         </div>
         <h1>Create your account</h1>
         <p>Get started with the Intelligent NBA Platform</p>

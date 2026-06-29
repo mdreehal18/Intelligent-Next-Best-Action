@@ -15,7 +15,7 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">🛡️</div>
-        <span className="sidebar-logo-text">Aegis</span>
+        <span className="sidebar-logo-text">AgentFusion</span>
       </div>
       <nav className="sidebar-nav">
         {navItems.map(item => (
