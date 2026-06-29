@@ -1,0 +1,150 @@
+{
+  "playbooks": [
+    {
+      "id": "PB_001",
+      "title": "High Risk Customer Retention",
+      "content": "For customers with risk scores above 70, prioritize immediate outreach. Offer a loyalty discount of up to 20% or a dedicated success manager. Schedule a quarterly business review within 2 weeks.",
+      "tags": ["risk", "retention", "churn"]
+    },
+    {
+      "id": "PB_002",
+      "title": "Enterprise Cross-Sell Strategy",
+      "content": "For enterprise customers (Revenue > $7M) using only 1-2 products, recommend 'Corporate Credit Line' or 'Trade Finance Solution' as the next best product. Highlight volume-based pricing advantages.",
+      "tags": ["enterprise", "cross-sell", "expansion"]
+    },
+    {
+      "id": "PB_003",
+      "title": "Growth Segment Upsell",
+      "content": "For growth segment customers ($3M-$7M revenue), suggest upgrading to the 'Premium Business Package' tier to ensure scalability. Focus on value realization and ROI stories.",
+      "tags": ["growth", "upsell"]
+    },
+    {
+      "id": "PB_004",
+      "title": "Onboarding Acceleration",
+      "content": "New customers in their first 90 days should complete product activation, attend a kickoff call, and set success milestones. Assign a dedicated onboarding specialist for accounts over $2M.",
+      "tags": ["onboarding", "new-customer", "adoption"]
+    },
+    {
+      "id": "PB_005",
+      "title": "Renewal Risk Mitigation",
+      "content": "For accounts renewing within 90 days with health scores below 60, initiate a 'Save Play': executive sponsor call, custom success plan, and potential contract incentive. Escalate to VP if NPS < 5.",
+      "tags": ["renewal", "risk", "retention"]
+    },
+    {
+      "id": "PB_006",
+      "title": "Support Escalation Protocol",
+      "content": "Accounts with 3+ open support tickets require immediate triage. CSM should join the next support call, create a resolution timeline, and provide daily status updates until tickets are below 2.",
+      "tags": ["support", "escalation", "risk"]
+    },
+    {
+      "id": "PB_007",
+      "title": "Champion Expansion Playbook",
+      "content": "For Champion-stage customers (health > 85, NPS > 8), pursue case study opportunities, referral programs, and multi-year contract discussions. These accounts are ideal for beta feature access.",
+      "tags": ["champion", "expansion", "advocacy"]
+    },
+    {
+      "id": "PB_008",
+      "title": "Declining Usage Intervention",
+      "content": "When usage trend shows 'declining' for 2+ months, schedule a usage review meeting. Identify adoption blockers, offer training sessions, and consider assigning a product specialist.",
+      "tags": ["usage", "adoption", "risk", "declining"]
+    }
+  ],
+  "faq": [
+    {
+      "question": "What are the eligibility rules for the loyalty discount?",
+      "answer": "Customers must have been with the platform for over 2 years and have a risk level of High or a health score below 40."
+    },
+    {
+      "question": "When should a customer be escalated to VP-level attention?",
+      "answer": "Escalate when: NPS score is below 4, renewal is within 60 days with declining health, or there are 5+ open support tickets."
+    },
+    {
+      "question": "What defines a Champion customer?",
+      "answer": "A Champion has a health score above 85, NPS of 8+, growing usage trend, and has been on the platform for at least 12 months."
+    },
+    {
+      "question": "How is customer health score calculated?",
+      "answer": "Health score combines: product adoption (30%), support satisfaction (20%), usage frequency (25%), NPS (15%), and revenue trend (10%)."
+    }
+  ],
+  "product_documentation": [
+    {
+      "product": "Corporate Credit Line",
+      "summary": "Flexible revolving credit facility for enterprise operations. Ideal for companies with revenue > $7M needing working capital flexibility.",
+      "ideal_for": ["Enterprise", "high-revenue"]
+    },
+    {
+      "product": "Risk Monitoring Program",
+      "summary": "Proactive risk management with real-time early-warning alerts, quarterly health assessments, and dedicated risk advisory.",
+      "ideal_for": ["high-risk", "declining"]
+    },
+    {
+      "product": "Trade Finance Solution",
+      "summary": "Support for international trade and supply-chain payments. Best for manufacturing and technology companies with cross-border operations.",
+      "ideal_for": ["Manufacturing", "Technology", "Enterprise"]
+    },
+    {
+      "product": "Working Capital Loan",
+      "summary": "Short-term financing for day-to-day operations. Designed for emerging businesses needing cash flow support.",
+      "ideal_for": ["Emerging", "low-revenue"]
+    },
+    {
+      "product": "Business Credit Card",
+      "summary": "Everyday business spending with cashback rewards and expense tracking. Entry-level product for all segments.",
+      "ideal_for": ["Retail", "Emerging", "all"]
+    }
+  ],
+  "crm_history_samples": {
+    "CUST001": [
+      {"date": "2026-05-15", "type": "note", "note": "Customer expressed concern about recent downtime. Moderate churn risk."},
+      {"date": "2026-06-01", "type": "note", "note": "Renewed primary contract, but opted out of expansion."},
+      {"date": "2026-06-20", "type": "call", "note": "Quarterly review completed. Satisfied with core services."}
+    ],
+    "CUST002": [
+      {"date": "2026-04-10", "type": "note", "note": "Manufacturing output declining. Customer exploring competitor options."},
+      {"date": "2026-05-20", "type": "escalation", "note": "VP-level escalation: customer threatened to leave after billing dispute."},
+      {"date": "2026-06-15", "type": "note", "note": "Resolution in progress. Offered 15% loyalty discount."},
+      {"date": "2026-06-25", "type": "call", "note": "Emergency review call. Customer remains dissatisfied with response time."}
+    ],
+    "CUST003": [
+      {"date": "2026-05-01", "type": "note", "note": "Excellent product adoption. Expressed interest in expanding to corporate credit line."},
+      {"date": "2026-06-10", "type": "meeting", "note": "Strategic planning session. Agreed to explore multi-year contract."},
+      {"date": "2026-06-27", "type": "call", "note": "Positive quarterly check-in. Requested beta access to new analytics features."}
+    ],
+    "CUST004": [
+      {"date": "2026-05-25", "type": "note", "note": "Onboarding delayed due to internal restructuring at MediCare."},
+      {"date": "2026-06-10", "type": "support", "note": "3 support tickets opened regarding integration issues."},
+      {"date": "2026-06-18", "type": "call", "note": "CSM intervention call. Assigned dedicated onboarding specialist."}
+    ],
+    "CUST005": [
+      {"date": "2026-06-01", "type": "note", "note": "Top-tier customer. Using all major products effectively."},
+      {"date": "2026-06-15", "type": "meeting", "note": "Executive review: discussing case study and referral program."},
+      {"date": "2026-06-26", "type": "call", "note": "Confirmed interest in becoming a platform reference customer."}
+    ],
+    "CUST006": [
+      {"date": "2026-03-15", "type": "note", "note": "Revenue declining sharply. Multiple missed payments."},
+      {"date": "2026-04-20", "type": "escalation", "note": "Risk team alerted. Customer facing cash flow crisis."},
+      {"date": "2026-05-10", "type": "call", "note": "Last contact attempt. Customer unresponsive to outreach."}
+    ],
+    "CUST007": [
+      {"date": "2026-05-15", "type": "note", "note": "Won major government construction contract. Revenue expected to grow 40%."},
+      {"date": "2026-06-05", "type": "meeting", "note": "Discussed equipment finance expansion for new project fleet."},
+      {"date": "2026-06-22", "type": "call", "note": "Follow-up on trade finance proposal. Decision expected by July."}
+    ],
+    "CUST008": [
+      {"date": "2026-05-20", "type": "note", "note": "SaaS platform growing but only using basic savings account."},
+      {"date": "2026-06-01", "type": "note", "note": "Competitor outreach detected. Need to accelerate cross-sell."},
+      {"date": "2026-06-15", "type": "call", "note": "Discussed trade finance and corporate credit options."}
+    ],
+    "CUST009": [
+      {"date": "2026-04-15", "type": "note", "note": "Education sector facing budget cuts. Customer may downgrade services."},
+      {"date": "2026-05-20", "type": "support", "note": "5 tickets opened. Primary complaint: slow response times."},
+      {"date": "2026-06-05", "type": "escalation", "note": "CSM escalation: customer considering cancellation."}
+    ],
+    "CUST010": [
+      {"date": "2026-05-01", "type": "note", "note": "New customer onboarded. Agriculture sector with seasonal revenue patterns."},
+      {"date": "2026-06-01", "type": "meeting", "note": "Kickoff meeting completed. Set 90-day success milestones."},
+      {"date": "2026-06-19", "type": "call", "note": "30-day check-in. Progressing well on adoption milestones."}
+    ]
+  }
+}

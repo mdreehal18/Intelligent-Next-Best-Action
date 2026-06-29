@@ -208,6 +208,22 @@ function ExplainabilityCard({ analysis }) {
             : "neutral",
       color:  oppMeta.color,
     },
+    ...(analysis.risks_identified || []).map(risk => ({
+      label:  "Risk Identified",
+      value:  risk,
+      sub:    "Flagged by Risk Agent",
+      meta:   { badge: "Risk", color: "#ef4444", bg: "#fef2f2", border: "#fecaca" },
+      status: "fail",
+      color:  "#ef4444",
+    })),
+    ...(analysis.opportunities_identified || []).map(opp => ({
+      label:  "Opportunity Found",
+      value:  opp,
+      sub:    "Identified by Growth Agent",
+      meta:   { badge: "Upsell", color: "#22c55e", bg: "#f0fdf4", border: "#bbf7d0" },
+      status: "pass",
+      color:  "#22c55e",
+    }))
   ];
 
   return (

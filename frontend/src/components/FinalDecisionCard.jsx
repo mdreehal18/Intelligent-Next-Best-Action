@@ -336,11 +336,94 @@ function FinalDecisionCard({ analysis }) {
       </div>
 
       <div className="decision-row">
+        <span className="decision-label">Business Reasoning:</span>
+        <div className="reason-box">
+          <ul style={{ margin: 0, paddingLeft: '1.2rem', color: '#94a3b8', fontSize: '0.85rem' }}>
+            {(analysis.reasoning || ["Matches customer profile standards"]).map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="decision-row">
+        <span className="decision-label">Supporting Evidence:</span>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
+          {analysis.evidence?.playbooks?.map((pb, i) => (
+            <span key={i} style={{ background: '#1e293b', border: '1px solid #334155', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', color: '#38bdf8' }}>
+              📜 {pb.title}
+            </span>
+          ))}
+          {analysis.evidence?.crm_history?.length > 0 && (
+            <span style={{ background: '#1e293b', border: '1px solid #334155', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', color: '#10b981' }}>
+              👥 CRM History Checked
+            </span>
+          )}
+        </div>
+      </div>
+
+      {analysis.business_impact && (
+        <div className="impact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '25px', padding: '20px', background: 'rgba(56, 189, 248, 0.05)', borderRadius: '15px', border: '1px solid rgba(56, 189, 248, 0.2)' }}>
+          <div>
+            <span style={{ color: '#38bdf8', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Churn reduction</span>
+            <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#f8fafc' }}>{analysis.business_impact.expected_churn_reduction}</span>
+          </div>
+          <div>
+            <span style={{ color: '#10b981', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Revenue Opp</span>
+            <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#f8fafc' }}>{analysis.business_impact.revenue_opportunity}</span>
+          </div>
+        </div>
+      )}
+
+      <div className="decision-row" style={{ marginTop: '20px' }}>
         <span className="decision-label">Business Reason:</span>
         <div className="reason-box">
           {explanation}
         </div>
       </div>
+
+      <div style={{ marginTop: '25px', display: 'flex', gap: '15px' }}>
+        <button
+          onClick={() => window.onReview?.(analysis.decision_id, "Approved")}
+          style={{
+            flex: 1,
+            padding: '12px',
+            borderRadius: '10px',
+            background: analysis.review_status === "Approved" ? "#10b981" : "transparent",
+            border: '2px solid #10b981',
+            color: analysis.review_status === "Approved" ? "#ffffff" : "#10b981",
+            fontWeight: 800,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            fontSize: '0.9rem'
+          }}
+        >
+          APPROVE
+        </button>
+        <button
+          onClick={() => window.onReview?.(analysis.decision_id, "Rejected")}
+          style={{
+            flex: 1,
+            padding: '12px',
+            borderRadius: '10px',
+            background: analysis.review_status === "Rejected" ? "#f43f5e" : "transparent",
+            border: '2px solid #f43f5e',
+            color: analysis.review_status === "Rejected" ? "#ffffff" : "#f43f5e",
+            fontWeight: 800,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            fontSize: '0.9rem'
+          }}
+        >
+          REJECT
+        </button>
+      </div>
+
+      {analysis.review_status && (
+        <div style={{ marginTop: '15px', color: '#94a3b8', fontSize: '0.8rem', textAlign: 'center' }}>
+          Current Status: <strong style={{ color: analysis.review_status === 'Approved' ? '#10b981' : '#f43f5e' }}>{analysis.review_status}</strong>
+        </div>
+      )}
     </article>
   );
 }

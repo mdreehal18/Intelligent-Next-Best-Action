@@ -334,6 +334,75 @@ function RecommendationPanel({ selectedCustomer }) {
                 null
               }
             />
+
+            {/* HITL Controls */}
+            <div style={{ marginTop: '12px', borderTop: '1px solid #f1f5f9', paddingTop: '20px' }}>
+              <p style={{ margin: '0 0 12px', fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Human Approval Workflow
+              </p>
+              
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '12px',
+                    background: selectedCustomer.review_status === "Approved" ? "#10b981" : "#ffffff",
+                    border: '1px solid #10b981',
+                    color: selectedCustomer.review_status === "Approved" ? "#ffffff" : "#10b981",
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    fontSize: '0.85rem'
+                  }}
+                  onClick={() => window.onReview?.(selectedCustomer.decision_id, "Approved")}
+                >
+                  Approve
+                </button>
+                <button
+                  style={{
+                    flex: 1,
+                    padding: '12px',
+                    borderRadius: '12px',
+                    background: selectedCustomer.review_status === "Rejected" ? "#ef4444" : "#ffffff",
+                    border: '1px solid #ef4444',
+                    color: selectedCustomer.review_status === "Rejected" ? "#ffffff" : "#ef4444",
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    fontSize: '0.85rem'
+                  }}
+                  onClick={() => window.onReview?.(selectedCustomer.decision_id, "Rejected")}
+                >
+                  Reject
+                </button>
+              </div>
+              
+              <button
+                style={{
+                  width: '100%',
+                  marginTop: '10px',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  color: '#64748b',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: '0.82rem'
+                }}
+              >
+                Modify Recommendation
+              </button>
+
+              {selectedCustomer.review_status && (
+                <div style={{ marginTop: '15px', padding: '10px', borderRadius: '10px', background: selectedCustomer.review_status === "Approved" ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)", textAlign: 'center' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: selectedCustomer.review_status === "Approved" ? "#10b981" : "#ef4444" }}>
+                    Status: {selectedCustomer.review_status}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

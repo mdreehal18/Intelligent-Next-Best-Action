@@ -179,6 +179,32 @@ function HomePage() {
     ];
   }, [customers]);
 
+  // ── Handle Human-in-the-Loop Review ──────────────────────────────────
+  const handleReview = async (decisionId, status) => {
+    try {
+      const { reviewDecision } = await import("../services/api");
+      await reviewDecision(decisionId, status);
+      
+      // Update local state to reflect the change immediately
+      setAnalysis(prev => {
+        if (prev && prev.decision_id === decisionId) {
+          return { ...prev, review_status: status };
+        }
+        return prev;
+      });
+      
+      console.log(`Decision ${decisionId} marked as ${status}`);
+    } catch (err) {
+      console.error("Review failed:", err);
+      alert("Failed to update status. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    window.onReview = handleReview;
+    return () => { window.onReview = null; };
+  }, [handleReview]);
+
   // ── Render ────────────────────────────────────────────────────────────
   return (
     <PageLayout>

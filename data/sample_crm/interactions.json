@@ -1,0 +1,58 @@
+{
+  "CUST001": [
+    {"date": "2026-06-20", "channel": "email", "direction": "outbound", "subject": "Q3 Roadmap Preview", "summary": "Sent quarterly product roadmap and upcoming feature releases."},
+    {"date": "2026-06-15", "channel": "call", "direction": "inbound", "subject": "Service Inquiry", "summary": "Customer called to ask about digital banking feature availability."},
+    {"date": "2026-05-28", "channel": "support", "direction": "inbound", "subject": "Login Issue", "summary": "Ticket #T001 - Intermittent login failures resolved within 24 hours."}
+  ],
+  "CUST002": [
+    {"date": "2026-06-25", "channel": "call", "direction": "outbound", "subject": "Emergency Review Follow-up", "summary": "CSM called to confirm billing resolution timeline. Customer remains frustrated."},
+    {"date": "2026-06-20", "channel": "email", "direction": "outbound", "subject": "Billing Adjustment Confirmation", "summary": "Sent billing adjustment details and loyalty discount documentation."},
+    {"date": "2026-06-10", "channel": "support", "direction": "inbound", "subject": "Billing Discrepancy", "summary": "Ticket #T002 - Overcharge of $12,000 identified. Escalated to finance team."},
+    {"date": "2026-06-05", "channel": "support", "direction": "inbound", "subject": "API Integration Failure", "summary": "Ticket #T003 - Integration with ERP system failing intermittently."},
+    {"date": "2026-05-25", "channel": "support", "direction": "inbound", "subject": "Report Generation Error", "summary": "Ticket #T004 - Monthly reports generating incorrect totals."},
+    {"date": "2026-05-15", "channel": "email", "direction": "inbound", "subject": "Formal Complaint", "summary": "CFO sent formal complaint letter about service quality degradation."}
+  ],
+  "CUST003": [
+    {"date": "2026-06-27", "channel": "call", "direction": "outbound", "subject": "Quarterly Check-in", "summary": "Positive quarterly check-in. Discussed beta program enrollment."},
+    {"date": "2026-06-20", "channel": "email", "direction": "outbound", "subject": "Case Study Proposal", "summary": "Sent case study outline for review and approval."},
+    {"date": "2026-06-10", "channel": "email", "direction": "inbound", "subject": "Feature Request", "summary": "Requested advanced analytics dashboard with custom KPI tracking."}
+  ],
+  "CUST004": [
+    {"date": "2026-06-18", "channel": "call", "direction": "outbound", "subject": "Onboarding Support", "summary": "Discussed integration blockers and assigned specialist."},
+    {"date": "2026-06-12", "channel": "support", "direction": "inbound", "subject": "Data Migration Issue", "summary": "Ticket #T005 - Data migration from legacy system incomplete."},
+    {"date": "2026-06-08", "channel": "support", "direction": "inbound", "subject": "User Access Setup", "summary": "Ticket #T006 - 15 user accounts need role configuration."},
+    {"date": "2026-06-01", "channel": "email", "direction": "outbound", "subject": "Onboarding Checklist", "summary": "Sent updated onboarding checklist with revised timeline."}
+  ],
+  "CUST005": [
+    {"date": "2026-06-26", "channel": "call", "direction": "outbound", "subject": "Executive Review", "summary": "Discussed referral program and event speaking opportunities."},
+    {"date": "2026-06-15", "channel": "email", "direction": "outbound", "subject": "Referral Program Details", "summary": "Sent comprehensive referral program documentation and benefits."},
+    {"date": "2026-06-01", "channel": "email", "direction": "inbound", "subject": "Product Satisfaction", "summary": "CEO sent unsolicited positive feedback about platform performance."}
+  ],
+  "CUST006": [
+    {"date": "2026-05-10", "channel": "call", "direction": "outbound", "subject": "Retention Attempt", "summary": "Attempted retention call. Customer considering scaling down operations."},
+    {"date": "2026-04-28", "channel": "email", "direction": "outbound", "subject": "Payment Reminder", "summary": "Third payment reminder sent. No response received."},
+    {"date": "2026-04-15", "channel": "support", "direction": "inbound", "subject": "Account Access Issue", "summary": "Ticket #T007 - Account locked due to failed payment. Customer unresponsive."},
+    {"date": "2026-04-01", "channel": "support", "direction": "inbound", "subject": "Transaction Failure", "summary": "Ticket #T008 - Multiple transaction failures reported."}
+  ],
+  "CUST007": [
+    {"date": "2026-06-22", "channel": "call", "direction": "outbound", "subject": "Growth Discussion", "summary": "Discussed trade finance options for new government contract."},
+    {"date": "2026-06-10", "channel": "email", "direction": "outbound", "subject": "Equipment Finance Proposal", "summary": "Sent detailed equipment finance proposal for construction fleet."},
+    {"date": "2026-05-28", "channel": "email", "direction": "inbound", "subject": "Contract Win Notification", "summary": "Customer informed us about major government contract win."}
+  ],
+  "CUST008": [
+    {"date": "2026-06-15", "channel": "call", "direction": "outbound", "subject": "Product Discovery", "summary": "Presented trade finance and corporate credit options."},
+    {"date": "2026-06-05", "channel": "email", "direction": "outbound", "subject": "Competitive Comparison", "summary": "Sent competitive analysis comparing our offerings with alternatives."},
+    {"date": "2026-05-20", "channel": "support", "direction": "inbound", "subject": "Account Statement Request", "summary": "Ticket #T009 - Requested detailed account statements for last 6 months."}
+  ],
+  "CUST009": [
+    {"date": "2026-06-05", "channel": "call", "direction": "outbound", "subject": "Escalation Resolution", "summary": "CSM escalation call with CEO. Committed to resolving all open tickets."},
+    {"date": "2026-05-28", "channel": "support", "direction": "inbound", "subject": "Performance Degradation", "summary": "Ticket #T010 - Platform running slowly during peak hours."},
+    {"date": "2026-05-20", "channel": "support", "direction": "inbound", "subject": "Report Accuracy", "summary": "Ticket #T011 - Financial reports showing incorrect balances."},
+    {"date": "2026-05-15", "channel": "email", "direction": "inbound", "subject": "Service Concern", "summary": "CEO expressed concern about declining service quality."}
+  ],
+  "CUST010": [
+    {"date": "2026-06-19", "channel": "call", "direction": "outbound", "subject": "30-Day Review", "summary": "Positive 30-day onboarding review. Customer progressing well."},
+    {"date": "2026-06-05", "channel": "email", "direction": "outbound", "subject": "Product Education", "summary": "Sent product education materials and seasonal financing guide."},
+    {"date": "2026-05-25", "channel": "email", "direction": "outbound", "subject": "Welcome Package", "summary": "Sent welcome package with onboarding timeline and key contacts."}
+  ]
+}

@@ -163,6 +163,18 @@ class PlannerAgent:
             )
         )
 
+        # ── Step: Ingest Interactions (always) ────────────────────────────
+        steps.append(
+            self._step(
+                name="ingest_interactions",
+                label="Interaction Ingestion",
+                description="Ingest and summarize recent meetings, emails, and support tickets.",
+                agent="InteractionIngestionAgent",
+                priority="required",
+                reason="Provides interaction sentiment and contextual risk signals.",
+            )
+        )
+
         # ── Step: Knowledge Retrieval (always) ────────────────────────────
         steps.append(
             self._step(
@@ -242,6 +254,18 @@ class PlannerAgent:
             )
         )
 
+        # ── Step: Detect Conflicts (always) ───────────────────────────────
+        steps.append(
+            self._step(
+                name="detect_conflicts",
+                label="Conflict Detection",
+                description="Detect and resolve contradictory signals between risk and opportunity.",
+                agent="ConflictAgent",
+                priority="required",
+                reason="Ensures consistent decision-making when signals diverge.",
+            )
+        )
+
         # ── Step: Generate Explanation (always) ───────────────────────────
         steps.append(
             self._step(
@@ -254,6 +278,18 @@ class PlannerAgent:
                 agent="ExplanationAgent",
                 priority="required",
                 reason="Human-readable output is required for the decision dashboard.",
+            )
+        )
+
+        # ── Step: Feedback Learning (always) ──────────────────────────────
+        steps.append(
+            self._step(
+                name="feedback_learning",
+                label="Feedback Learning",
+                description="Analyze past approve/reject decisions to adjust confidence.",
+                agent="FeedbackLearningAgent",
+                priority="required",
+                reason="Continuous learning from historical interactions.",
             )
         )
 

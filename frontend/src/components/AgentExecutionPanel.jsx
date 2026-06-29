@@ -18,15 +18,15 @@ const STYLES = `
 
 // ─── Agent display names ──────────────────────────────────────────────────────
 const AGENT_LABELS = {
-  PlannerAgent:               "Planner Agent",
-  RiskAssessmentAgent:        "Risk Assessment Agent",
-  OpportunityAgent:           "Opportunity Agent",
-  ProductRecommendationAgent: "Product Recommendation Agent",
-  ConflictDetectionAgent:     "Conflict Detection Agent",
-  ReviewerAgent:              "Reviewer Agent",
-  ExplanationAgent:           "Explanation Agent",
-  MemoryAgent:                "Memory Agent",
-  AuditAgent:                 "Audit Agent",
+  PlannerAgent:               "Dynamic Planning",
+  KnowledgeRetrievalAgent:    "Knowledge Retrieval",
+  RiskAssessmentAgent:        "Risk Assessment",
+  OpportunityAgent:           "Opportunity Analysis",
+  ProductRecommendationAgent: "Recommendation Engine",
+  ExplanationAgent:           "Explainability Layer",
+  ReviewerAgent:              "Human-in-the-Loop",
+  MemoryAgent:                "Memory Update",
+  AuditAgent:                 "Compliance Logging",
 };
 
 const PIPELINE_ORDER = Object.keys(AGENT_LABELS);
@@ -270,13 +270,13 @@ function AgentExecutionPanel({ trace = [], loading = false }) {
 
   function getAgentDetails(agent) {
     const detailsMap = {
-      PlannerAgent: "Loading customer profile...",
+      PlannerAgent: "Tailoring execution path...",
+      KnowledgeRetrievalAgent: "Sourcing enterprise context...",
       RiskAssessmentAgent: "Evaluating risk factors...",
       OpportunityAgent: "Identifying growth opportunities...",
       ProductRecommendationAgent: "Selecting optimal products...",
-      ConflictDetectionAgent: "Scanning for policy conflicts...",
-      ReviewerAgent: "Finalizing recommendation...",
       ExplanationAgent: "Generating business logic...",
+      ReviewerAgent: "Waiting for human signal...",
       MemoryAgent: "Updating customer history...",
       AuditAgent: "Logging transaction for compliance...",
     };
